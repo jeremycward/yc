@@ -9,7 +9,7 @@ export const YcPointsPanel: FC<YieldCurve> = (props: YieldCurve) => {
   //   
   // ]);
 
-  console.log(props.curvePoints)
+
 
   // const rowData = [
   //   { tenor: "Toyota", value: 3.4448},
@@ -25,7 +25,7 @@ export const YcPointsPanel: FC<YieldCurve> = (props: YieldCurve) => {
   
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
+    <div className="ag-theme-alpine" style={{ height: 120, width: 120 }}>
       <AgGridReact
         rowData={props.curvePoints}
         columnDefs={columnDefs}>
