@@ -1,14 +1,30 @@
 import { Rmi } from "../services/rmi"
 import { createContext } from 'react';
-import axios from "axios";
+
+import { dummyYieldCurve } from "../components/yieldcurve/samplegraph/data";
+
+export interface Plot {
+    x: Array<string>
+    y: Array<Number>
+}
 export interface YcPoint {
     tenor: String
     value: number
+    maturityDate:String
 }
 
-export interface YcHandleProps {
+export interface Instrument{
     name: String
-    description: String
+    points: Array<YcPoint>
+}
+
+
+export interface MktData{
+    instruments: Array<Instrument>
+}
+export interface YcHandleProps {
+    name: String    
+    description:   String
 }
 
 
@@ -19,8 +35,10 @@ export interface YcNavigationQueryRequest {
 
 }
 export interface YieldCurve {
-    yieldCurveHandle: YcHandleProps
-    curvePoints: Array<YcPoint> 
+    handle: YcHandleProps    
+    mktData: MktData
+    plot: Plot
+
 }
 
 export interface YieldCurveService {
@@ -43,81 +61,22 @@ function submit(rmiRequest: YcNavigationQueryRequest): Promise<YcNavigationQuery
     }
     )
 }
-
-const yieldCurveListImpl: Rmi<YcNavigationQueryRequest, YcNavigationQueryResults> =
-    (request: YcNavigationQueryRequest): Promise<YcNavigationQueryResults> => {
-        return new Promise<YcNavigationQueryResults>((resolve, reject) => {
-            setTimeout(() => {
-                const results: YcNavigationQueryResults = {
-                    handles: [
-                        { name: "jeremy", description: "ward" },
-                        { name: "sheila", description: "hanly" }
-                    ]
-
-
-                }
-                resolve(results)                
-            }, 500)
-        }
-        )
-    }
-
-
- function fetchYcHandlesAxios() {    
-    return axios.get("http://localhost:5000/ycHandles", {method: 'GET'})
-}
-function fetchYieldCurveUniqueAxios(ycName:String){
-    return axios.get("http://localhost:5000/yc", {method: 'GET', params: {ycName: ycName}})
+export interface MarketDataRecord{
+    name: String,
+    ycPoint: YcPoint
 
 }
 
-const yieldCurveListRestImpl: Rmi<YcNavigationQueryRequest, YcNavigationQueryResults> = (request: YcNavigationQueryRequest): Promise<YcNavigationQueryResults> => {
-    return fetchYcHandlesAxios().then(        
-        (result)=>{            
-            console.log(result.data)
-            const parsed: YcNavigationQueryResults = result.data as YcNavigationQueryResults
-            return Promise.resolve(parsed)
-        }
-    ).catch((error)=>{
-        console.log(error)
-        alert(error)
-        return Promise.resolve({ handles: []
+
+export const flattenMarketData = (mkdData:MktData):Array<MarketDataRecord>=>{
+    const retVal: Array<MarketDataRecord> = []
+    mkdData.instruments.forEach((thisInstr:Instrument)=>{
+        thisInstr.points.forEach((thisPoint:YcPoint)=>{
+            retVal.push({name:thisInstr.name, ycPoint: thisPoint})
         })
-    });
-}
-const yieldCurveGetUniqeRestImpl: Rmi<YcHandleProps, YieldCurve> = (request: YcNavigationQueryRequest): Promise<YieldCurve> => {
-    return fetchYieldCurveUniqueAxios('EUR-OUTRIGHT').then(        
-        (result)=>{            
-            console.log(result.data)
-            const parsed: YieldCurve = result.data as YieldCurve
-            return Promise.resolve(parsed)
-        }
-    ).catch((error)=>{
-        return Promise.resolve(null as any)
-    });
+    })
+    return retVal    
 
-}
-
-
-const yieldCurveGetUniqueImpl: Rmi<YcHandleProps, YieldCurve> = (request: YcHandleProps): Promise<YieldCurve> => {
-    return new Promise<YieldCurve>((resolve, reject) => {
-        setTimeout(() => {
-            resolve({
-                yieldCurveHandle: request,
-                curvePoints : [
-                    {tenor: "6M",value: 3.4}                 
-                ]
-            })
-        }, 200)
-    }
-    )
-
-
-}
-
-export const YieldCurveServiceDefaultImpl: YieldCurveService = {
-    yieldCurveList: yieldCurveListRestImpl,
-    yieldCurveGetUnique: yieldCurveGetUniqeRestImpl
 }
 
 

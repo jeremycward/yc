@@ -9,8 +9,10 @@ export const useRmi = (rmi: Rmi<any,any>, inputParams: any) => {
 
     const fetchData = async (): Promise<void> => {
         try {
-            const response = await rmi(inputParams)            
+            const response = await rmi(inputParams)                        
+            console.log(`got responseforyc ${JSON.stringify(response)}`)
             setData(response);
+            setLoading(false)
         } catch (error) {
             setError(error);
             setLoading(false);

@@ -38,7 +38,7 @@ export const YcNavPanel: FC<any> = () => {
             console.log("retrieving yc handles...");
         }
     }, [loading]);
-
+    console.log(`loading ? ${loading}`)
     return (
         <div>
             <h4>Yield Curves</h4>
