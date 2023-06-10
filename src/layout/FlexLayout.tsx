@@ -1,12 +1,12 @@
 import React, { createContext } from 'react';
-import { Actions,  Layout, Model, TabNode, IJsonModel, DockLocation } from 'flexlayout-react';
+import { Actions, Layout, Model, TabNode, IJsonModel, DockLocation } from 'flexlayout-react';
 import { YcNavPanel } from '../components/YcNavPanel';
 import { YieldCurvePanel } from '../components/YieldCurvePanel'
 
-import 'flexlayout-react/style/light.css';
+import 'flexlayout-react/style/dark.css';
 import { YcHandleProps } from '../services/YieldCurveService';
 import { YcHandle } from '../YieldCurveNavigation';
-
+import { Header } from '../components/Header';
 
 export interface Mdi {
     addYeildCurve(handle: YcHandleProps): void;
@@ -90,14 +90,25 @@ export const factory = (node: TabNode) => {
 export function LApp() {
     return (
 
+
         <MdiContext.Provider value={mdi}>
-                <div style={{height:'50%'}}></div>
-            
-                <Layout
-                    
-                    model={model}
-                    factory={factory} />
-            
+
+            <div>
+              <Header></Header>
+
+            <div
+                className="flex-container"
+                style={{
+                    position: "relative",
+                    height: "calc(90vh)" // TODO Manage size of flex layout properly
+                }}
+            >
+
+
+                <Layout model={model}factory={factory} />
+            </div>
+            </div>
+
 
 
         </MdiContext.Provider>

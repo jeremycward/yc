@@ -18,9 +18,8 @@ const ycService: YieldCurveService = YieldCurveServiceDefaultImpl
 export default function App() {
     return (
         <YCServiceContext.Provider value={ycService}>
-            <div style={{height:'20%'}}>
-                <h1>heading</h1>
-            </div>
+            
+            
             <div>
                 <Lapp></Lapp>
             </div>
