@@ -2,11 +2,20 @@ import React, { useContext, useEffect, useState, FC } from 'react';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-
     faUser,
     faQuestionCircle,
-    faArrowCircleLeft
 } from "@fortawesome/free-solid-svg-icons";
+
+
+// var source = new EventSource("http://daphne174:5000/stream");
+//     source.addEventListener('greeting', function(event) {
+//         var data = JSON.parse(event.data);
+//         console.log("The server says " + data.message);
+//     }, false);
+//     source.addEventListener('error', function(event) {
+//         alert("Failed to connect to event stream. Is Redis running?");
+//     }, false);
+
 
 export const Header: FC<any> = (props: any) => {
     const openCurly = '{'
@@ -14,7 +23,7 @@ export const Header: FC<any> = (props: any) => {
     const paddingStyle ={width:'10px'}
     return (
         <React.Fragment>
-            <div style={{ background: 'black', color: 'lightgray', display: 'flex', alignItems: 'center' }}>
+            <div style={{ borderBottomStyle:'solid', borderBottomWidth: '5px', borderBottomColor: 'white', background: 'black', color: 'lightgray', display: 'flex', alignItems: 'center' }}>
                 <span style={{ color: 'lightgray', fontSize: '50px' }}>Dull</span>
                 <span style={{ color: 'white', fontSize: '50px' }}>Bank</span>
                 <span style={paddingStyle}></span>

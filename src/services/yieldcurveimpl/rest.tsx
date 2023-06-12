@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Rmi } from "../../services/rmi"
+import { PubSub,MessageHandler } from "../pubsub";
+import { RfqMessage } from "../YieldCurveService";
 import { YcNavigationQueryRequest,YcNavigationQueryResults,YcHandleProps,YieldCurve,YieldCurveService } from "../YieldCurveService";
 
 
@@ -37,8 +39,30 @@ const yieldCurveGetUniqeRestImpl: Rmi<YcHandleProps, YieldCurve> = (request: YcN
         return Promise.resolve(null as any)
     });
 }
+
+
+class rfqPubSubImpl implements PubSub<RfqMessage> {
+    intervalId: any
+    handler : MessageHandler<RfqMessage> | null
+    sendMessage(){
+        
+        console.log("sending message")
+
+    }
+    subscribe(handler: MessageHandler<RfqMessage>): void {
+        this.intervalId =  setInterval(this.sendMessage,1000)
+    }
+    
+
+    unsubscribe(): void {
+        clearInterval(this.intervalId)
+
+    } 
+}
+
 export const YieldCurveServiceDefaultImpl: YieldCurveService = {
     yieldCurveList: yieldCurveListRestImpl,
-    yieldCurveGetUnique: yieldCurveGetUniqeRestImpl
+    yieldCurveGetUnique: yieldCurveGetUniqeRestImpl,
+    rfqMonitor: new rfqPubSubImpl()
 }
 

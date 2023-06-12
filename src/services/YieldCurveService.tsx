@@ -1,4 +1,5 @@
 import { Rmi } from "../services/rmi"
+import {PubSub} from "../services/pubsub"
 import { createContext } from 'react';
 
 import { dummyYieldCurve } from "../components/yieldcurve/samplegraph/data";
@@ -40,10 +41,15 @@ export interface YieldCurve {
     plot: Plot
 
 }
+export interface RfqMessage{
+    id: String    
+    status : String    
+}
 
 export interface YieldCurveService {
     yieldCurveList: Rmi<YcNavigationQueryRequest, YcNavigationQueryResults>;
-    yieldCurveGetUnique: Rmi<YcHandleProps, YieldCurve>
+    yieldCurveGetUnique: Rmi<YcHandleProps, YieldCurve>;
+    rfqMonitor: PubSub<RfqMessage>
 }
 
 

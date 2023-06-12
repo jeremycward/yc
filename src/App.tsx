@@ -14,12 +14,10 @@ import { YieldCurveService } from './services/YieldCurveService'
 import { YieldCurveServiceDefaultImpl } from './services/yieldcurveimpl/rest'
 import { YieldCurveServiceDummyImpl } from './services/yieldcurveimpl/dummy'
 
-const ycService: YieldCurveService = YieldCurveServiceDefaultImpl
+const ycService: YieldCurveService = YieldCurveServiceDummyImpl
 export default function App() {
     return (
         <YCServiceContext.Provider value={ycService}>
-            
-            
             <div>
                 <Lapp></Lapp>
             </div>

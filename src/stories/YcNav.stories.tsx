@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ContentScreen } from '../components/YieldCurvePanel';
-import { Button } from './Button';
 import { dummyYieldCurve } from '../components/yieldcurve/samplegraph/data';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
